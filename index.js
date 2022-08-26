@@ -4,6 +4,7 @@ import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
 import postRoutes from "./routes/posts.js"
+import newsRoutes from "./routes/news.js"
 
 const app = express()
 dotenv.config()
@@ -13,6 +14,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
 app.use(cors())
 
 app.use("/posts", postRoutes)
+app.use("/news", newsRoutes)
 
 app.get("/", (req, res) => {
   res.send("Hello API")
@@ -32,4 +34,4 @@ mongoose
   )
   .catch((error) => console.log(`${error} did not connect`))
 
-// mongoose.set("useFindAndModify", false)
+// mongoose.set("useFindAndModify", false)ss
