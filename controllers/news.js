@@ -8,7 +8,7 @@ const router = express.Router()
 export const getNews = async (req, res) => {
   try {
     const news = await newsProvider()
-    res.status(200).json(getNews)
+    res.status(200).json(news)
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
