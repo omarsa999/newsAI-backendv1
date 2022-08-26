@@ -1,5 +1,6 @@
 import express from "express"
 import newsProvider from "../models/newsProvider.js"
+import summryProvider from "../models/summryProvider.js"
 import axios from "axios"
 import data from "../data.json" assert { type: "json" }
 
@@ -36,6 +37,18 @@ export const saveNews = async (req, res) => {
       console.log(postData, newPostData)
     }
     res.status(201)
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+}
+
+export const summariser = async (req, res) => {
+  try {
+    const txt =
+      "في ختام اجتماع ثلاثي بمشاركة نتنياهو : بن جفير وسموتريتش يتفقان على خوض الانتخابات في قائمة واحدة"
+    const summary = await summryProvider(txt)
+    // console.log(summary)
+    res.status(200).send(summary.data.rewrite)
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
