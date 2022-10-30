@@ -7,7 +7,7 @@ const summryProvider = async (txt) => {
     url: "https://rewriter-paraphraser-text-changer-multi-language.p.rapidapi.com/rewrite",
     headers: {
       "content-type": "application/json",
-      "X-RapidAPI-Key": "85e71fb41amsh6ade5a3c69cddd6p1130f8jsnbfe4477ee31a",
+      "X-RapidAPI-Key": process.env.summryProviderAPI,
       "X-RapidAPI-Host":
         "rewriter-paraphraser-text-changer-multi-language.p.rapidapi.com",
     },

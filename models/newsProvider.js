@@ -6,7 +6,7 @@ const options = {
   url: "https://newscatcher.p.rapidapi.com/v1/latest_headlines",
   params: { lang: "ar", country: "il", media: "True" },
   headers: {
-    "X-RapidAPI-Key": "85e71fb41amsh6ade5a3c69cddd6p1130f8jsnbfe4477ee31a",
+    "X-RapidAPI-Key": process.env.newsProviderAPI,
     "X-RapidAPI-Host": "newscatcher.p.rapidapi.com",
   },
 }
