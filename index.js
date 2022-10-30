@@ -5,6 +5,7 @@ import cors from "cors"
 import dotenv from "dotenv"
 import postRoutes from "./routes/posts.js"
 import newsRoutes from "./routes/news.js"
+
 // require("dotenv").config()
 const app = express()
 dotenv.config()
@@ -17,10 +18,29 @@ app.use("/posts", postRoutes)
 app.use("/news", newsRoutes)
 
 app.get("/", (req, res) => {
-  res.send("Hello API")
+  res.status(200).send("Hello API")
+
+  // // 1- get the news
+  // try {
+  //   const freshNews = getNews()
+  //   console.log(freshNews[0])
+  //   res.status(200).send("Hello API")
+  // } catch (error) {
+  //   res.status(404).json({ message: error.message })
+  // }
+  // //
+  // // Here will be the buisness logic
+  // //
 })
 
 const CONNECTION_URL = process.env.CONNECTION_URLs
+
+// System flow:
+//  1- get the news
+//  2- save the news to const
+//  3- summry the news
+//  4- save to mongoDB || dirctly to Cache
+//
 
 // "mongodb+srv://admin:jEcvup-kaqbex-9dofpu@cluster0.ie6rnc3.mongodb.net/?retryWrites=true&w=majority"
 const PORT = process.env.PORT || 5000
