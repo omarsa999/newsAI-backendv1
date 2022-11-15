@@ -54,4 +54,6 @@ mongoose
   )
   .catch((error) => console.log(`${error} did not connect`))
 
+// Scheduling Jobs - get news every 30 min
+
 // mongoose.set("useFindAndModify", false)ss
