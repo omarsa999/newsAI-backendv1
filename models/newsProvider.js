@@ -1,12 +1,14 @@
 // this file will have the connection with the rapid api
 import axios from "axios"
 
+const apiKey = "85e71fb41amsh6ade5a3c69cddd6p1130f8jsnbfe4477ee31a"
+// console.log(apiKey)
 const options = {
   method: "GET",
   url: "https://newscatcher.p.rapidapi.com/v1/latest_headlines",
   params: { lang: "ar", country: "il", media: "True" },
   headers: {
-    "X-RapidAPI-Key": process.env.newsProviderAPI,
+    "X-RapidAPI-Key": apiKey,
     "X-RapidAPI-Host": "newscatcher.p.rapidapi.com",
   },
 }

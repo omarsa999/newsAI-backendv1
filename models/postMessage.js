@@ -5,6 +5,7 @@ const postSchema = mongoose.Schema({
   postBody: String,
   summarized: String,
   author: String,
+  thumb: String,
   originalPostLink: String,
   published_date: String,
   tags: [String],

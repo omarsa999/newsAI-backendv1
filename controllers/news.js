@@ -1,4 +1,4 @@
-import express from "express"
+import express, { response } from "express"
 import summryProvider from "../models/summryProvider.js"
 import axios from "axios"
 import PostMessage from "../models/postMessage.js"
@@ -9,6 +9,30 @@ import data from "../data.json" assert { type: "json" }
 // const url = "http://localhost:5000/posts"
 
 const router = express.Router()
+
+export const posting = async (req, res) => {
+  try {
+    const ttt =
+      "وقد اجرت الأحزاب مؤتمرات صحفية في الايام الاخيرة حاولت من خلالها جذب الناخبين للتصويت لها. وقد ركزت الموحدة على وجودها في الائتلاف وتحصيلها الميزانيات وتأثيرها على مجريات الأمور السياسية . وتوجه النائب منصور عباس بشكلٍ مباشر للناخبين اليهود ودعاهم للتصويت لحزبه."
+    // const response =
+    await axios
+      .post("http://localhost:5000/news/sum", {
+        text: ttt,
+      })
+      .then((response) => {
+        res.status(200).json(response)
+      })
+      .catch((err) => {
+        console.log(err)
+        res.status(333)
+      })
+    // console.log(returnedRes)
+    res.status(200)
+    // .send(returnedRes)
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+}
 
 export const start = async (req, res) => {
   try {
@@ -21,15 +45,35 @@ export const start = async (req, res) => {
       if (a.rank > b.rank) return 1
       return 0
     })
-    const latestNews = latest.data.slice(0, 5)
+
+    const latestNews = latest.data.slice(0, 10)
     const postsArray = []
     for (const onePost of latestNews) {
-      postsArray.push({
+      // const txt2Summery = onePost.summary
+      // console.log(typeof txt2Summery)
+      // const summringText = await axios.post("http://localhost:5000/sum", {
+      //   text: txt2Summery,
+      // })
+      // .then((response) => console.log(response.data))
+
+      // console.log(summringText)
+      // const summrizedText =
+      const newPostMessage = new PostMessage({
         title: onePost.title,
         postBody: onePost.summary,
-        author: onePost.media,
-        summarized: "",
+        author: onePost.author,
+        thumb: onePost.media,
+        link: onePost.link,
       })
+      await newPostMessage.save()
+      // postsArray.push({
+      //   title: onePost.title,
+      //   postBody: onePost.summary,
+      //   author: onePost.author,
+      //   thumb: onePost.media,
+      //   link: onePost.link,
+      //   summarized: summringText,
+      // })
     }
     // // Summrizing
     // for (const post of latestNews) {
@@ -46,12 +90,13 @@ export const start = async (req, res) => {
     // }
 
     // Saving
-    await axios.post("http://localhost:5000/news", postsArray, {
-      timeout: 30000,
-    })
 
-    res.status(200).send(postsArray)
-    console.log(postsArray)
+    // await axios.post("http://localhost:5000/news", postsArray, {
+    //   timeout: 30000,
+    // })
+
+    res.status(200).send("Saved")
+    // console.log(postsArray)
     // .json(latest)
   } catch (error) {
     res.status(404).json({ message: error.message })
@@ -62,7 +107,7 @@ export const start = async (req, res) => {
 export const getNews = async (req, res) => {
   try {
     const news = await newsProvider()
-    console.log(news.data.articles)
+    // console.log(news.data.articles)
     res.status(200).json(news.data.articles)
 
     // res.status(200).send(news)
@@ -120,7 +165,7 @@ export const summariserId = async (req, res) => {
   const post = await PostMessage.findByIdAndUpdate(postID, {
     summarized: "ok ok",
   })
-  console.log(post)
+  // console.log(post)
   // const updatedPost = { summarized: "dsfsdfds" }
   // await axios.patch(`${url}/${postID}`, updatedPost)
   res.status(200).json(post)
@@ -130,9 +175,11 @@ export const summariser = async (req, res) => {
   try {
     const txt = req.body.text
     // console.log(txt)
-    const summary = await summryProvider(txt)
-    // console.log(summary)
-    res.status(200).send(summary.data)
+    const summary = await summryProvider(txt).then((response) => {
+      res.status(200).json(response.data)
+      // console.log(summary.data)
+    })
+    // res.status(200).send(summary)
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
