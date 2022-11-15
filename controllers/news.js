@@ -45,24 +45,35 @@ export const start = async (req, res) => {
       if (a.rank > b.rank) return 1
       return 0
     })
-    const latestNews = latest.data.slice(0, 5)
+
+    const latestNews = latest.data.slice(0, 10)
     const postsArray = []
     for (const onePost of latestNews) {
-      const txt2Summery = onePost.summary
+      // const txt2Summery = onePost.summary
       // console.log(typeof txt2Summery)
-      const summringText = await axios.post("http://localhost:5000/sum", {
-        text: txt2Summery,
-      })
+      // const summringText = await axios.post("http://localhost:5000/sum", {
+      //   text: txt2Summery,
+      // })
       // .then((response) => console.log(response.data))
 
       // console.log(summringText)
       // const summrizedText =
-      postsArray.push({
+      const newPostMessage = new PostMessage({
         title: onePost.title,
         postBody: onePost.summary,
-        author: onePost.media,
-        summarized: summringText,
+        author: onePost.author,
+        thumb: onePost.media,
+        link: onePost.link,
       })
+      await newPostMessage.save()
+      // postsArray.push({
+      //   title: onePost.title,
+      //   postBody: onePost.summary,
+      //   author: onePost.author,
+      //   thumb: onePost.media,
+      //   link: onePost.link,
+      //   summarized: summringText,
+      // })
     }
     // // Summrizing
     // for (const post of latestNews) {
@@ -80,11 +91,11 @@ export const start = async (req, res) => {
 
     // Saving
 
-    await axios.post("http://localhost:5000/news", postsArray, {
-      timeout: 30000,
-    })
+    // await axios.post("http://localhost:5000/news", postsArray, {
+    //   timeout: 30000,
+    // })
 
-    res.status(200).send(postsArray)
+    res.status(200).send("Saved")
     // console.log(postsArray)
     // .json(latest)
   } catch (error) {

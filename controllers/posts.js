@@ -29,12 +29,14 @@ export const getPost = async (req, res) => {
 
 export const createPost = async (req, res) => {
   // const { title, message, selectedFile, creator, tags } = req.body;
-  const { title, postBody, author, summarized } = req.body
+  const { title, postBody, author, thumb, media, summarized } = req.body
 
   const newPostMessage = new PostMessage({
     title,
     postBody,
     author,
+    thumb,
+    media,
     summarized,
   })
 
