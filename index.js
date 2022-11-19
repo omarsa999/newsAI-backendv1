@@ -5,6 +5,8 @@ import cors from "cors"
 import dotenv from "dotenv"
 import postRoutes from "./routes/posts.js"
 import newsRoutes from "./routes/news.js"
+import { scheduleJob } from "node-schedule"
+import axios from "axios"
 
 // require("dotenv").config()
 const app = express()
@@ -57,3 +59,8 @@ mongoose
 // Scheduling Jobs - get news every 30 min
 
 // mongoose.set("useFindAndModify", false)ss
+
+scheduleJob("get news", "0 */12 * * *", async () => {
+  await axios.get("http://localhost:5000/news/start")
+  console.log("get ")
+})
