@@ -60,7 +60,7 @@ mongoose
 
 // mongoose.set("useFindAndModify", false)ss
 
-scheduleJob("get news", "0 */12 * * *", async () => {
-  await axios.get("http://localhost:5000/news/start")
-  console.log("get ")
-})
+// scheduleJob("get news", "0 */12 * * *", async () => {
+//   await axios.get("http://localhost:5000/news/start")
+//   console.log("get ")
+// })
